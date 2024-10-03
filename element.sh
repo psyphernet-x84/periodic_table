@@ -128,3 +128,13 @@ FIX_DB() {
   DELETE_COLUMN_PROPERTIES_TYPE=$($PSQL "ALTER TABLE properties DROP COLUMN type;")
   echo "DELETE_COLUMN_PROPERTIES_TYPE               : $DELETE_COLUMN_PROPERTIES_TYPE"
 }
+
+START_PROGRAM() {
+  CHECK=$($PSQL "SELECT COUNT(*) FROM elements WHERE atomic_number=1000;")
+  if [[ $CHECK -gt 0 ]]
+  then
+    FIX_DB
+    clear
+  fi
+  MAIN_PROGRAM $1
+}
